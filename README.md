@@ -39,7 +39,7 @@ One thing worth knowing: a couple of these signals are tied to your GPU/hardware
   * `--blink-settings=audioContextEnabled=false`: Turns off Web Audio API fingerprinting.
   * `--disable-webrtc`: Kills WebRTC so your private local IP doesn't leak.
 * **Blocks Local LAN Traffic (`netsh` Firewall Rules):**
-  * Automatically sets outbound Windows Firewall rules to block FiveM from talking to private IP ranges (`10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`).
+  * Automatically sets outbound Windows Firewall rules to block FiveM from talking to private IP ranges (`10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `16,169.254.0.0/16`).
 
 ---
 
