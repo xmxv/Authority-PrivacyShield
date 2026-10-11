@@ -1,0 +1,257 @@
+<Window x:Class="PrivacyShield.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="PrivacyShield"
+        Width="560"
+        SizeToContent="Height"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        FontFamily="Segoe UI"
+        TextOptions.TextFormattingMode="Ideal">
+
+    <Window.Resources>
+
+        <Style x:Key="Toggle" TargetType="CheckBox">
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <Border x:Name="track" Width="44" Height="24" CornerRadius="12" Background="#26262A">
+                            <Ellipse x:Name="thumb" Width="18" Height="18" Fill="#6E6E73"
+                       HorizontalAlignment="Left" Margin="3,0,0,0"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="track" Property="Background" Value="#F2F2F3"/>
+                                <Setter TargetName="thumb" Property="Fill" Value="#0A0A0B"/>
+                                <Setter TargetName="thumb" Property="HorizontalAlignment" Value="Right"/>
+                                <Setter TargetName="thumb" Property="Margin" Value="0,0,3,0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="DarkBox" TargetType="TextBox">
+            <Setter Property="Background" Value="#141416"/>
+            <Setter Property="Foreground" Value="#C9C9CC"/>
+            <Setter Property="BorderBrush" Value="#242427"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="CaretBrush" Value="#F2F2F3"/>
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="6">
+                            <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="Ghost" TargetType="Button">
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Foreground" Value="#B4B4B8"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="b" Background="#17171A" BorderBrush="#242427" BorderThickness="1" CornerRadius="6" Padding="16,0">
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="b" Property="Background" Value="#1E1E22"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="Launch" TargetType="Button">
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="b" Background="#367A4E" CornerRadius="7">
+                            <TextBlock Text="L A U N C H   G A M E" HorizontalAlignment="Center" VerticalAlignment="Center"
+                         Foreground="#F4F4F5" FontWeight="SemiBold" FontSize="13"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="b" Property="Background" Value="#3E8A58"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="b" Property="Background" Value="#2C6440"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="Close" TargetType="Button">
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <TextBlock x:Name="t" Text="&#215;" FontSize="18" Foreground="#6E6E73"/>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="t" Property="Foreground" Value="#D0D0D2"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SectionHeader" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#57575C"/>
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="Margin" Value="0,0,0,12"/>
+        </Style>
+
+        <Style x:Key="RowLabel" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#D2D2D4"/>
+            <Setter Property="FontSize" Value="13.5"/>
+        </Style>
+
+        <Style x:Key="Caption" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#5B5B60"/>
+            <Setter Property="FontSize" Value="10.5"/>
+            <Setter Property="Margin" Value="0,3,0,0"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+
+    </Window.Resources>
+
+    <Border Margin="12" Background="#0A0A0B" CornerRadius="16" BorderBrush="#1B1B1E" BorderThickness="1">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="28" ShadowDepth="0" Opacity="0.55" Color="#000000"/>
+        </Border.Effect>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Border x:Name="DragZone" Grid.Row="0" Background="Transparent" Cursor="SizeAll"
+              Padding="40,40,40,22" MouseLeftButtonDown="Drag_MouseDown" Margin="0,0,0,10">
+                <StackPanel>
+                    <TextBlock HorizontalAlignment="Center" FontSize="30" FontWeight="Light"
+                     Foreground="#F2F2F3" Text="PRIVACY SHIELD"/>
+                    <TextBlock HorizontalAlignment="Center" FontSize="10" Foreground="#5C5C61"
+                     Margin="0,6,0,0" Text="Protect your privacy"/>
+                    <Border Width="34" Height="2" Background="#3A3A3E" HorizontalAlignment="Center" Margin="0,18,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <Button x:Name="btnClose" Grid.Row="0" Style="{StaticResource Close}" Click="Close_Click"
+              HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,16,20,0"/>
+
+            <StackPanel Grid.Row="1" Margin="40,0,40,26">
+
+                <TextBlock Style="{StaticResource SectionHeader}" Text="FiveM PATH"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="txtPath" Grid.Column="0" Style="{StaticResource DarkBox}"/>
+                    <Button x:Name="btnBrowse" Grid.Column="1" Style="{StaticResource Ghost}" Content="Browse"
+                  Margin="8,0,0,0" Click="Browse_Click"/>
+                </Grid>
+
+                <TextBlock Style="{StaticResource SectionHeader}" Text="ARGUMENTS" Margin="0,20,0,12"/>
+                <TextBox x:Name="txtArgs" Style="{StaticResource DarkBox}"/>
+                <TextBlock Style="{StaticResource Caption}"
+                   Text="-b3570 sets the game build. Change the number to match your server's build, or remove it to run the latest."/>
+
+                <Border Height="1" Background="#161619" Margin="0,18"/>
+
+                <TextBlock Style="{StaticResource SectionHeader}" Text="CACHE"/>
+                <Grid Margin="0,4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Style="{StaticResource RowLabel}" Text="Clear cache before launch"/>
+                        <TextBlock Style="{StaticResource Caption}" Text="Wipes the stored NUI browser identifier"/>
+                    </StackPanel>
+                    <CheckBox x:Name="tglClearCache" Grid.Column="1" Style="{StaticResource Toggle}" VerticalAlignment="Center"/>
+                </Grid>
+
+                <Border Height="1" Background="#161619" Margin="0,18"/>
+
+                <TextBlock Style="{StaticResource SectionHeader}" Text="FINGERPRINTING"/>
+                <Grid Margin="0,4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Style="{StaticResource RowLabel}" Text="Prevent fingerprinting"/>
+                        <TextBlock Style="{StaticResource Caption}" Text="Blocks canvas and audio signatures in CEF"/>
+                    </StackPanel>
+                    <CheckBox x:Name="tglFingerprint" Grid.Column="1" Style="{StaticResource Toggle}" VerticalAlignment="Center"/>
+                </Grid>
+
+                <Border Height="1" Background="#161619" Margin="0,18"/>
+
+                <TextBlock Style="{StaticResource SectionHeader}" Text="NETWORK"/>
+                <Grid Margin="0,4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Style="{StaticResource RowLabel}" Text="Disable WebRTC"/>
+                        <TextBlock Style="{StaticResource Caption}" Text="Hides your local IP, not your public IP"/>
+                    </StackPanel>
+                    <CheckBox x:Name="tglWebRtc" Grid.Column="1" Style="{StaticResource Toggle}" VerticalAlignment="Center"/>
+                </Grid>
+
+                <Border Height="1" Background="#161619" Margin="0,18"/>
+
+                <TextBlock Style="{StaticResource SectionHeader}" Text="FIREWALL"/>
+                <Grid Margin="0,4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Style="{StaticResource RowLabel}" Text="Block LAN scanning"/>
+                        <TextBlock Style="{StaticResource Caption}" Text="10/8, 172.16/12, 192.168/16, 169.254/16"/>
+                    </StackPanel>
+                    <CheckBox x:Name="tglFirewall" Grid.Column="1" Style="{StaticResource Toggle}" VerticalAlignment="Center"
+                    Checked="Firewall_Toggled" Unchecked="Firewall_Toggled"/>
+                </Grid>
+                <TextBlock x:Name="txtNetStatus" Style="{StaticResource Caption}"
+                   Text="Requires admin. Re-apply after each FiveM update by toggling it off then on."/>
+
+                <Button x:Name="btnLaunch" Style="{StaticResource Launch}" Margin="0,24,0,0" Click="Launch_Click"/>
+                <TextBlock x:Name="txtStatus" HorizontalAlignment="Center" FontSize="11" Foreground="#6E6E73"
+                   Margin="0,14,0,0" TextWrapping="Wrap" TextAlignment="Center"
+                   Text="Ready. Configure options, then launch."/>
+
+                <TextBlock HorizontalAlignment="Center" FontSize="10" Foreground="#3C3C40" Margin="0,16,0,0"
+                   Text="PrivacyShield  v1.0.0"/>
+
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>
